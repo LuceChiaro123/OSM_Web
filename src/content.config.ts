@@ -31,4 +31,17 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { pages };
+// News & Blog posts, managed via the Decap CMS admin at /admin/
+// (see public/admin/config.yml). Field names/shape mirror that config.
+const posts = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/posts" }),
+  schema: z.object({
+    title: z.string(),
+    publishDate: z.date(),
+    photo: z.string().optional(),
+    // The "publish/unpublish toggle" — unpublished posts get no page.
+    published: z.boolean().default(false),
+  }),
+});
+
+export const collections = { pages, posts };

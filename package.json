@@ -1,6 +1,6 @@
 {
   "name": "osm-indonesia-website",
-  "description": "Ordo Servorum Mariae (Servite Order) Indonesia community website — Phase 1 static site.",
+  "description": "Ordo Servorum Mariae (Servite Order) Indonesia community website.",
   "private": true,
   "type": "module",
   "version": "0.0.1",
@@ -11,13 +11,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "cms": "decap-server"
   },
   "dependencies": {
     "astro": "^7.2.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "decap-server": "^3.10.0",
     "typescript": "^6.0.3"
   }
 }

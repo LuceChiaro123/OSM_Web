@@ -1,0 +1,36 @@
+# Decap CMS configuration.
+#
+# Currently wired to decap-server's local `proxy` backend (`npm run cms`)
+# since no production hosting/auth provider has been chosen yet — see the
+# "Still pending" section of CLAUDE.md. This backend has NO authentication
+# and only accepts connections from this machine — it must never be used
+# on a public site. Once a host is chosen, replace the `backend` block
+# below with a real backend (e.g. `name: github` with an OAuth app, or
+# `name: git-gateway` + Netlify Identity if hosting on Netlify).
+
+backend:
+  name: proxy
+  proxy_url: "http://localhost:8081/api/v1"
+  branch: "master"
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "posts"
+    label: "News & Blog Posts"
+    folder: "src/content/posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "publishDate", widget: "datetime" }
+      - { label: "Photo", name: "photo", widget: "image", required: false }
+      - {
+          label: "Published",
+          name: "published",
+          widget: "boolean",
+          default: false,
+          hint: "Turn this on to make the post visible on the public site.",
+        }
+      - { label: "Body", name: "body", widget: "markdown" }

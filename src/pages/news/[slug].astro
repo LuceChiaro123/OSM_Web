@@ -1,0 +1,36 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", (post) => post.data.published);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const dateFormatter = new Intl.DateTimeFormat("en", {
+  dateStyle: "long",
+});
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={`News from the Servite Order Indonesia community — ${post.data.title}`}
+>
+  <div class="container">
+    <article class="prose" style="padding-block: var(--space-4);">
+      <p class="post-meta">{dateFormatter.format(post.data.publishDate)}</p>
+      <h1>{post.data.title}</h1>
+      {post.data.photo && (
+        <img class="post-detail__photo" src={post.data.photo} alt="" />
+      )}
+      <Content />
+      <p><a href="/news/">&larr; Back to News &amp; Blog</a></p>
+    </article>
+  </div>
+</BaseLayout>
