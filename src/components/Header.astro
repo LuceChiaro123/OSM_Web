@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+
+const allPages = await getCollection("pages");
+const navItems = allPages
+  .filter((page) => page.data.showInNav)
+  .sort((a, b) => a.data.navOrder - b.data.navOrder);
+
+// `/` for the home entry, `/<id>` for everything else.
+function hrefFor(id: string) {
+  return id === "home" ? "/" : `/${id}/`;
+}
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="site-header__name" href="/">
+      Ordo Servorum Mariae
+      <small>Servite Order — Indonesia</small>
+    </a>
+
+    <button
+      type="button"
+      class="nav-toggle"
+      aria-expanded="false"
+      aria-controls="main-nav"
+    >
+      Menu
+    </button>
+
+    <nav class="main-nav" id="main-nav" aria-label="Main">
+      <ul>
+        {
+          navItems.map((item) => {
+            const href = hrefFor(item.id);
+            const isCurrent =
+              href === "/"
+                ? currentPath === "/"
+                : currentPath.startsWith(href);
+            return (
+              <li>
+                <a href={href} aria-current={isCurrent ? "page" : undefined}>
+                  {item.data.navLabel}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
+  const nav = document.getElementById("main-nav");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = nav?.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+  });
+</script>

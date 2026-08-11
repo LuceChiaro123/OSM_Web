@@ -1,0 +1,14 @@
+---
+// Visible flag for pages/sections whose copy is still placeholder text,
+// pending the research brief and/or Indonesia-specific details from the
+// user. Keeps "real" scaffolding clearly distinct from stand-in content
+// for whoever reviews the site next (see CLAUDE.md).
+---
+
+<div class="placeholder-notice" role="note">
+  <strong>Placeholder content</strong>
+  <slot>
+    This section is awaiting real content and should not be treated as
+    final.
+  </slot>
+</div>

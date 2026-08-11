@@ -1,0 +1,22 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import PlaceholderNotice from "../components/PlaceholderNotice.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  placeholder?: boolean;
+}
+
+const { title, description, placeholder = false } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="container">
+    <article class="prose" style="padding-block: var(--space-4);">
+      <h1>{title}</h1>
+      {placeholder && <PlaceholderNotice />}
+      <slot />
+    </article>
+  </div>
+</BaseLayout>
